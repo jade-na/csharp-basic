@@ -113,7 +113,7 @@
             lbLog.ItemHeight = 15;
             lbLog.Location = new Point(19, 341);
             lbLog.Name = "lbLog";
-            lbLog.Size = new Size(877, 199);
+            lbLog.Size = new Size(1106, 229);
             lbLog.TabIndex = 2;
             // 
             // racerB
@@ -150,7 +150,7 @@
             // 
             FinishLine.BackColor = SystemColors.MenuHighlight;
             FinishLine.ForeColor = SystemColors.ControlLightLight;
-            FinishLine.Location = new Point(833, 36);
+            FinishLine.Location = new Point(1062, 36);
             FinishLine.Name = "FinishLine";
             FinishLine.Size = new Size(63, 286);
             FinishLine.TabIndex = 6;
@@ -162,7 +162,7 @@
             AccessibleRole = AccessibleRole.None;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(917, 548);
+            ClientSize = new Size(1137, 577);
             Controls.Add(FinishLine);
             Controls.Add(racerD);
             Controls.Add(racerC);
