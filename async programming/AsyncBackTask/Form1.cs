@@ -52,8 +52,8 @@ namespace AsyncBackTask
             int endX = FinishLine.Left - lbl.Width;
             while (lbl.Left < endX)
             {
-                lbl.Location = new Point(lbl.Left * speed * 4, lbl.Top);
-                await Task.Delay(500);
+                lbl.Location = new Point(lbl.Left + (speed * 4), lbl.Top);
+                await Task.Delay(1);
             }
             lbl.Location = new Point(endX, lbl.Top);
             return $"{lbl.Text} µµÂø½Ã°£: {ArriveTime}ÃÊ";
@@ -62,26 +62,60 @@ namespace AsyncBackTask
         private async void buttonStartSeq_Click(object sender, EventArgs e)
         {
             Start();
-            await MoveRacer(racerA, 10);
-            await MoveRacer(racerB, 30);
-            await MoveRacer(racerC, 5);
-            await MoveRacer(racerD, 1);
+            string logA = await MoveRacer(racerA, 5);
+            string logB = await MoveRacer(racerB, 10);
+            string logC = await MoveRacer(racerC, 2);
+            string logD = await MoveRacer(racerD, 1);
+            AddLogs(logA, logB, logC, logD);
             End();
         }
 
-        private void buttonStartABafterCD_Click(object sender, EventArgs e)
+        private async void buttonStartABafterCD_Click(object sender, EventArgs e)
         {
+            Start();
+            var taskA = MoveRacer(racerA, 5);
+            var taskB = MoveRacer(racerB, 10);
+            
+            string[] result = await Task.WhenAll(taskA, taskB);
+            AddLogs(result);
 
+            var taskC = MoveRacer(racerC, 2);
+            var taskD = MoveRacer(racerD, 1);
+            string logC = await taskC;
+            string logD = await taskD;
+            AddLogs(logC, logD);
+
+            End();
         }
 
-        private void buttonStartAll_Click(object sender, EventArgs e)
+        private async void buttonStartAll_Click(object sender, EventArgs e)
         {
-
+            Start();
+            var taskA = MoveRacer(racerA, 5);
+            var taskB = MoveRacer(racerB, 10);
+            var taskC = MoveRacer(racerC, 2);
+            var taskD = MoveRacer(racerD, 1);
+            string[] result = await Task.WhenAll(taskA, taskB, taskC, taskD);
+            AddLogs(result);
+            End();
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private async void button4_Click(object sender, EventArgs e)
         {
+            Start();
+            Task<string> tA = MoveRacer(racerA, 5);
+            Task<string> tB = MoveRacer(racerB, 10);
+            Task<string> tC = MoveRacer(racerC, 2);
+            Task<string> tD = MoveRacer(racerD, 1);
 
+            var tasks = new List<Task<string>>{ tA, tB, tC, tD};
+            while( tasks.Count > 0 )
+            {
+                var t = await Task.WhenAny(tasks);
+                AddLogs((string)t.Result);
+                tasks.Remove(t);
+            }
+            End();
         }
     }
 }
